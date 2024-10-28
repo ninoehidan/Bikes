@@ -21,7 +21,7 @@ CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
 CREATE VIEW VW_ALL_PRODUCTS_NO_STOCK AS
   -- Listar os Produtos sem Estoque;
   SELECT p.* FROM PRODUCTION.products p
-    WHERE PRODUCTION.stocks.quantity > 0
+    WHERE PRODUCTION.stocks.quantity > 0;
 
 CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
   --Listar os Produtos que não tenham sido comprados
@@ -33,7 +33,7 @@ CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
       ON o.order_id = i.order_id
         AND  o.order_status IS NULL OR o.order_status <> '';
   -- JUST FOR GARANTEEE
-  WHERE p.product_id IS NOT NULL
+  WHERE p.product_id IS NOT NULL;
 
 CREATE VIEW VW_ALL_QTY_BY_STORE AS
   -- Qual seria mais eficiente, começar pelos items ou pela loja? (Usar a menor base começando pela referencia ou a base total?) -- Crossbase (qual a indexação?)
@@ -50,4 +50,10 @@ CREATE VIEW VW_ALL_QTY_BY_STORE AS
   GROUP BY 
       b.brand_name, 
       st.store_name, 
-      COALESCE(COUNT(p.quantity),0)
+      COALESCE(COUNT(p.quantity),0);
+
+CREATE VIEW VW_ALL_WKS_NOT_SELL AS 
+  -- Listar os Funcionarios que não estejam relacionados a um Pedido.
+    SELECT f.*  FROM SALES.staffs f
+      LEFT JOIN SALES.order o
+        on o.order_id IS NOT NULL;
