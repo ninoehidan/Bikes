@@ -1,0 +1,36 @@
+CREATE VIEW VW_ALL_CLIENTS_NO_BUY AS
+  -- Listar todos Clientes que não tenham realizado uma compra;
+  SELECT c.* FROM SALES.customers c
+    INNER JOIN o.SALES.orders o
+      ON o.customer_id = c.customer_id
+        AND o.order_status IS NULL OR o.order_status <> ''
+        AND o.order_date is null;
+
+CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
+  --Listar os Produtos que não tenham sido comprados
+  SELECT p.*, o.*, i.* FROM PRODUCTION.products p
+    INNER JOIN SALES.order_items i
+      ON i.productd_id = p.productd_id
+        AND i.quantity > 0 OR i.quantity IS NULL
+    INNER JOIN SALES.orders o
+      ON o.order_id = i.order_id
+        AND  o.order_status IS NULL OR o.order_status <> '';
+  -- JUST FOR GARANTEEE
+  WHERE p.product_id IS NOT NULL
+
+CREATE VIEW VW_ALL_PRODUCTS_NO_STOCK AS
+  -- Listar os Produtos sem Estoque;
+  SELECT p.* FROM PRODUCTION.products p
+    WHERE PRODUCTION.stocks.quantity > 0
+
+CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
+  --Listar os Produtos que não tenham sido comprados
+  SELECT p.*, o.*, i.* FROM PRODUCTION.products p
+    INNER JOIN SALES.order_items i
+      ON i.productd_id = p.productd_id
+        AND i.quantity > 0 OR i.quantity IS NULL
+    INNER JOIN SALES.orders o
+      ON o.order_id = i.order_id
+        AND  o.order_status IS NULL OR o.order_status <> '';
+  -- JUST FOR GARANTEEE
+  WHERE p.product_id IS NOT NULL
