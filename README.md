@@ -51,8 +51,6 @@ Construir as seguintes consultas:
 
 ## Finalização e Instruções para a Apresentação
 
-## Inicio da fase de testes para avaliação
-
 - Deve executar o arquivo VW_SELECTS na base oracle já com os devidos schemas e tabelas propostas criadas
 - O banco de dados deve ser Oracle (12 ou superior)
 - Os dados devem estar previamente populados
