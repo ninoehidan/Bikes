@@ -34,3 +34,20 @@ CRETE VIEW VW_ALL_ITEMS_NOT_BUYED AS
         AND  o.order_status IS NULL OR o.order_status <> '';
   -- JUST FOR GARANTEEE
   WHERE p.product_id IS NOT NULL
+
+CREATE VIEW VW_ALL_QTY_BY_STORE AS
+  -- Qual seria mais eficiente, começar pelos items ou pela loja? (Usar a menor base começando pela referencia ou a base total?) -- Crossbase (qual a indexação?)
+  -- Agrupar a quantidade de vendas que uma determinada Marca por Loja.
+  SELECT b.brand_name, st.store_name, COALESCE(COUNT(p.quantity),0) AS Qty_Sales FROM PRODUCTION.stores_NAMES b
+    INNER JOIN PRODUCCTS.products p
+      ON p.brand_id = b.brand_id_id
+    INNER JOIN SALES.order_items i
+      ON i.product_id = p.products_id
+    INNER JOIN SALES.orders o
+      ON o.order_id = i.order_id
+    INNER JOIN SALES.stores.stores s
+      ON s.store_id= o.store_id
+  GROUP BY 
+      b.brand_name, 
+      st.store_name, 
+      COALESCE(COUNT(p.quantity),0)
